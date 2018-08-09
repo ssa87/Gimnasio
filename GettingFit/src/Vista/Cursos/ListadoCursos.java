@@ -8,6 +8,8 @@ package Vista.Cursos;
 import Modelo.Conexion;
 import Vista.Principal;
 import java.awt.Frame;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
@@ -15,6 +17,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.RowFilter;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableRowSorter;
 
@@ -27,7 +30,7 @@ public class ListadoCursos extends javax.swing.JDialog {
         /*Se crea una variable para hacer la conexión con la pantalla Principal*/
     private Principal principal;
     private TableRowSorter trsFiltro;
-//    private CrearProfesor crearProfesor;
+    private CrearCurso crearCurso;
 //    private DetalleProfesor detalleProfesor;
     
     /**
@@ -38,7 +41,7 @@ public class ListadoCursos extends javax.swing.JDialog {
         /*Se hace la conexión con la pantalla Principal*/
         principal = (Principal)parent;
         initComponents();
-        /*Centramos la ventana del diálogo ListadoProfesores*/
+        /*Centramos la ventana del diálogo ListadoCursos*/
         this.setLocationRelativeTo(null);
         /*Cargamos la tabla con los datos de cursos*/
         cargarTabla();
@@ -159,7 +162,7 @@ public class ListadoCursos extends javax.swing.JDialog {
             }
         });
 
-        comboBusqueda.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Dni", "Nombre" }));
+        comboBusqueda.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Nombre", "Nivel" }));
 
         BotonDetalleCurso.setText("Detalle");
         BotonDetalleCurso.addActionListener(new java.awt.event.ActionListener() {
@@ -231,32 +234,32 @@ public class ListadoCursos extends javax.swing.JDialog {
     }//GEN-LAST:event_BotonVolverActionPerformed
 
     private void BotonAnadirCursoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BotonAnadirCursoActionPerformed
-//        try
-//        {
-//            Frame ListadoProfesores = null;
-//            crearProfesor = new CrearProfesor(ListadoProfesores, true);
-//            crearProfesor.setVisible(true);
-//            cargarTabla();
-//        }
-//        catch(Exception ex)
-//        {
-//            ex.printStackTrace();
-//        }
+        try
+        {
+            Frame ListadoCursos = null;
+            crearCurso = new CrearCurso(ListadoCursos, true);
+            crearCurso.setVisible(true);
+            cargarTabla();
+        }
+        catch(Exception ex)
+        {
+            ex.printStackTrace();
+        }
     }//GEN-LAST:event_BotonAnadirCursoActionPerformed
 
     private void textoBusquedaKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_textoBusquedaKeyTyped
-//        textoBusqueda.addKeyListener(new KeyAdapter()
-//            {
-//                public void keyReleased(final KeyEvent e)
-//                {
-//                    String cadenaBusqueda = textoBusqueda.getText();
-//                    textoBusqueda.setText(cadenaBusqueda);
-//                    repaint();
-//                    filtro();
-//                }
-//            });
-//            trsFiltro = new TableRowSorter(jTableCursos.getModel());
-//            jTableCursos.setRowSorter(trsFiltro);
+        textoBusqueda.addKeyListener(new KeyAdapter()
+            {
+                public void keyReleased(final KeyEvent e)
+                {
+                    String cadenaBusqueda = textoBusqueda.getText();
+                    textoBusqueda.setText(cadenaBusqueda);
+                    repaint();
+                    filtro();
+                }
+            });
+            trsFiltro = new TableRowSorter(jTableCursos.getModel());
+            jTableCursos.setRowSorter(trsFiltro);
     }//GEN-LAST:event_textoBusquedaKeyTyped
 
     private void BotonDetalleCursoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BotonDetalleCursoActionPerformed
@@ -308,7 +311,22 @@ public class ListadoCursos extends javax.swing.JDialog {
 
     }//GEN-LAST:event_BotonDetalleCursoActionPerformed
 
-        /*Método que nos permite mostrar la información de la tabla Profesores de la base de datos*/
+    /*Método que permite ver que elemento del combo esta seleccionado*/
+    public void filtro() 
+    {
+        int columnaABuscar = 0;
+        if (comboBusqueda.getSelectedItem() == "Nivel" || comboBusqueda.getSelectedItem() == "nivel") 
+        {
+            columnaABuscar = 3;
+        }
+        if (comboBusqueda.getSelectedItem().toString() == "Nombre" || comboBusqueda.getSelectedItem().toString() == "nombre") 
+        {
+            columnaABuscar = 1;
+        }
+        trsFiltro.setRowFilter(RowFilter.regexFilter(textoBusqueda.getText(), columnaABuscar));
+    }
+    
+    /*Método que nos permite mostrar la información de la tabla Profesores de la base de datos*/
     public void cargarTabla()
     {
         try

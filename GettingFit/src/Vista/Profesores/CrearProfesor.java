@@ -402,7 +402,7 @@ public class CrearProfesor extends javax.swing.JDialog {
         {
             Calendar calendario = Calendar.getInstance();
             calendario.setTime(fecha);
-            String dia = Integer.toString(calendario.get(Calendar.DAY_OF_WEEK_IN_MONTH) + 1);
+            String dia = Integer.toString(calendario.get(Calendar.DAY_OF_MONTH));
             String mes = Integer.toString(calendario.get(Calendar.MONTH) + 1);
             String anio = Integer.toString(calendario.get(Calendar.YEAR));
             fecha_bd = dia + "/" + mes + "/" + anio;  

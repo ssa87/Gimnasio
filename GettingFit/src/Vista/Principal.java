@@ -1,6 +1,7 @@
 package Vista;
 
 import Modelo.Conexion;
+import Vista.Cursos.CrearCurso;
 import Vista.Cursos.ListadoCursos;
 import Vista.Profesores.CrearProfesor;
 import Vista.Profesores.ListadoProfesores;
@@ -129,6 +130,11 @@ public class Principal extends javax.swing.JFrame {
         MenuCursos.add(MenuCursosListado);
 
         MenuCursosAnadir.setText("Añadir");
+        MenuCursosAnadir.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                MenuCursosAnadirActionPerformed(evt);
+            }
+        });
         MenuCursos.add(MenuCursosAnadir);
 
         MenuCursosBorrar.setText("Borrar");
@@ -231,6 +237,15 @@ public class Principal extends javax.swing.JFrame {
             new Principal().setVisible(true);
         }        
     }//GEN-LAST:event_MenuProfesoresBorrarActionPerformed
+
+    private void MenuCursosAnadirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MenuCursosAnadirActionPerformed
+        /*Se instancia la clase CrearCurso*/
+        CrearCurso creaCurso = new CrearCurso(this, true);
+        /*Se aplica el método setVisible para que al seleccionar el botón añadir del menú se abra
+        el diálogo que nos permitirá añadir cursos a la aplicación*/
+        creaCurso.setVisible(true);
+        
+    }//GEN-LAST:event_MenuCursosAnadirActionPerformed
 
     /**
      * @param args the command line arguments
